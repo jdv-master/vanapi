@@ -10,17 +10,16 @@ import { Not } from "typeorm";
 const router = express.Router();
 
 // Criar a rota para listar os usuários
-// Endereço para acessar a API através da aplicação externa com o verbo GET: http://localhost:8080/users
-router.get("/users", async (req: Request, res: Response) => {
+router.get("/user", async (req: Request, res: Response) => {
     try {
         // Criar uma instância do repositório de User
         const userRepository = AppDataSource.getRepository(User);
 
         // Recupera todos os usuários do banco de dados
-        const users = await userRepository.find();
+        const user = await userRepository.find();
 
         // Retorna os usuários como resposta
-        res.status(200).json(users);
+        res.status(200).json(user);
         return;
 
     } catch (error) {
@@ -33,18 +32,17 @@ router.get("/users", async (req: Request, res: Response) => {
 });
 
 // Rota para visualizar um usuário específico
-// Endereço para acessar a api através da aplicação externa com o verbo GET: http://localhost:8080/users/:id
-router.get("/users/:id", async (req: Request, res: Response) => {
+router.get("/user/:id_usuario", async (req: Request, res: Response) => {
     try {
 
         // Obter o ID do usuário a partir dos parâmetros da requisição
-        const { id } = req.params;
+        const { id_usuario } = req.params;
 
         // Obter o repositório da entidade User
         const userRepository = AppDataSource.getRepository(User);
 
         // Buscar o usuário no banco de dados pelo ID
-        const user = await userRepository.findOneBy({ id: parseInt(id) });
+        const user = await userRepository.findOneBy({ id_usuario: parseInt(id_usuario!) });
 
         // Verificar se o usuário foi encontrado
         if (!user) {
@@ -68,16 +66,7 @@ router.get("/users/:id", async (req: Request, res: Response) => {
 });
 
 // Criar a rota para cadastrar usuário
-// Endereço para acessar a api através da aplicação externa com o verbo POST: http://localhost:8080/users
-// A aplicação externa deve indicar que está enviado os dados em formato de objeto: Content-Type: application/json
-// Dados em formato de objeto
-/*
-{
-    "name": "Cesar",
-    "email": "cesar@celke.com.br"
-}
-*/
-router.post("/users", async (req: Request, res: Response) => {
+router.post("/user", async (req: Request, res: Response) => {
     try {
         // Receber os dados enviados no corpo da requisição
         var data = req.body;
@@ -117,20 +106,11 @@ router.post("/users", async (req: Request, res: Response) => {
 });
 
 // Criar a rota para editar usuário
-// Endereço para acessar a api através da aplicação externa com o verbo PUT: http://localhost:8080/users/:id
-// A aplicação externa deve indicar que está enviado os dados em formato de objeto: Content-Type: application/json
-// Dados em formato de objeto
-/*
-{
-    "name": "Cesar",
-    "email": "cesar@celke.com.br"
-}
-*/
-router.put("/users/:id", async (req: Request, res: Response) => {
+router.put("/user/:id_usuario", async (req: Request, res: Response) => {
     try {
 
         // Obter o ID do usuário a partir dos parâmetros da requisição
-        const { id } = req.params;
+        const { id_usuario } = req.params;
 
         // Receber os dados enviados no corpo da requisição
         const data = req.body;
@@ -139,7 +119,7 @@ router.put("/users/:id", async (req: Request, res: Response) => {
         const userRepository = AppDataSource.getRepository(User);
 
         // Buscar o usuário no banco de dados pelo ID
-        const user = await userRepository.findOneBy({id: parseInt(id)});
+        const user = await userRepository.findOneBy({id_usuario: parseInt(id_usuario!)});
 
         // Verificar se o usuário foi encontrado
         if(!user){
@@ -153,7 +133,7 @@ router.put("/users/:id", async (req: Request, res: Response) => {
         const existingUser = await userRepository.findOne({
             where: {
                 email: data.email,
-                id: Not(parseInt(id)), // Exclui o próprio registro da busca
+                id_usuario: Not(parseInt(id_usuario!)), // Exclui o próprio registro da busca
             }
         });
 
@@ -187,19 +167,18 @@ router.put("/users/:id", async (req: Request, res: Response) => {
 });
 
 // Criar a rota para apagar um usuário
-// Endereço para acessar a API através da aplicação externa com o verbo DELETE: http://localhost:8080/users/:id
-router.delete("/users/:id", async (req: Request, res: Response) => {
+router.delete("/user/:id_usuario", async (req: Request, res: Response) => {
 
     try{
 
         // Obter o ID do usuário a partir dos parâmetros da requisição
-        const { id }= req.params;
+        const { id_usuario }= req.params;
 
         // Obter o repositório da entidade User
         const userRepository = AppDataSource.getRepository(User);
 
         // Buscar o usuário no banco de dados pelo ID
-        const user = await userRepository.findOneBy( {id: parseInt(id)});
+        const user = await userRepository.findOneBy( {id_usuario: parseInt(id_usuario!)});
 
         // Verificar se o usuário foi encontrado
         if(!user){

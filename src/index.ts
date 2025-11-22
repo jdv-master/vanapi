@@ -14,10 +14,10 @@ app.use(express.json());
 app.use(cors());
 
 // Incluir as CONTROLLERS
-import UsersController from "./controllers/UsersController";
+import UserController from "./controllers/UserController";
 
 // Criar as rotas
-app.use('/', UsersController)
+app.use('/', UserController)
 
 // Criar a rota GET principal
 app.get("/", (req: Request, res: Response) => {

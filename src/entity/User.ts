@@ -1,19 +1,25 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
 
-@Entity("users")
+@Entity("user")
 export class User {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id_usuario!: number;
 
     @Column()
-    name!: string;
+    id_empresa!: number;
+    
+    @Column()
+    nome!: string;
 
-    @Column({ unique: true})
+    @Column()
     email!: string;
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
-    createdAt!: Date;
+    @Column()
+    senha!: string;
 
-    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP", onUpdate: "CURRENT_TIMESTAMP"})
-    updatedAt!: Date;
+    @Column()
+    tipo!: string;
+
+    @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP"})
+    data_cadastro!: Date;
 }
